@@ -141,6 +141,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            touch-action: pan-y;
         }
 
         .card {
@@ -420,13 +421,30 @@
 
         /* Responsive */
         @media (max-width: 700px) {
-            h1 { font-size: 2em; }
+            body {
+                align-items: flex-start;
+                padding: 24px 0 32px;
+            }
+            .container {
+                width: calc(100% - 24px);
+            }
+            .header {
+                margin-bottom: 24px;
+            }
+            h1 {
+                font-size: clamp(1.7rem, 8vw, 2em);
+                line-height: 1.2;
+            }
+            .subtitle {
+                font-size: 0.95em;
+                line-height: 1.5;
+            }
             .heart-main { font-size: 55px; }
-            .carousel { height: 460px; }
+            .carousel { height: 410px; }
             .card {
-                width: 300px;
-                height: 420px;
-                padding: 30px 22px;
+                width: min(300px, calc(100vw - 32px));
+                height: 390px;
+                padding: 26px 20px;
             }
             .card .card-icon { font-size: 45px; }
             .card .card-title { font-size: 1.35em; }
@@ -443,17 +461,26 @@
                 pointer-events: none;
             }
             .nav-btn { width: 48px; height: 48px; font-size: 1.3em; }
-            .signature { font-size: 1.25em; }
+            .signature-box { margin-top: 32px; }
+            .signature { font-size: 1.25em; line-height: 1.4; }
             .music-btn { padding: 10px 22px; font-size: 0.9em; }
         }
 
         @media (max-width: 400px) {
             .card {
-                width: 270px;
-                height: 440px;
-                padding: 25px 18px;
+                width: calc(100vw - 28px);
+                height: 400px;
+                padding: 24px 16px;
             }
-            .card .card-text { font-size: 0.92em; }
+            .card .card-icon { margin-bottom: 14px; }
+            .card .card-title { font-size: 1.2em; }
+            .card .card-text {
+                font-size: 0.92em;
+                line-height: 1.65;
+            }
+            .controls { margin-top: 24px; }
+            .dots { gap: 8px; }
+            .swipe-hint { font-size: 0.78em; }
         }
     </style>
 </head>
