@@ -15,12 +15,108 @@
             font-family: 'Georgia', 'Times New Roman', serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
+            min-height: 100svh;
+            min-height: 100dvh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow-x: hidden;
             position: relative;
             padding: 40px 0;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        body.locked {
+            overflow: hidden;
+        }
+
+        .lock-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: radial-gradient(circle at center, rgba(35, 29, 70, 0.98), rgba(5, 7, 22, 0.99));
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .lock-screen.unlocked {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .lock-box {
+            width: min(100%, 380px);
+            padding: 34px 26px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 107, 129, 0.4);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), 0 0 35px rgba(255, 107, 129, 0.14);
+            backdrop-filter: blur(16px);
+        }
+
+        .lock-icon {
+            display: block;
+            margin-bottom: 14px;
+            font-size: 4rem;
+            filter: drop-shadow(0 0 18px rgba(255, 107, 129, 0.6));
+        }
+
+        .lock-box h1 {
+            margin: 0 0 10px;
+            font-size: clamp(1.45rem, 6vw, 2rem);
+        }
+
+        .lock-box p {
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.5;
+        }
+
+        .lock-input {
+            width: 100%;
+            padding: 13px 16px;
+            color: white;
+            font: inherit;
+            font-size: 1.1rem;
+            text-align: center;
+            letter-spacing: 2px;
+            background: rgba(0, 0, 0, 0.24);
+            border: 1px solid rgba(255, 107, 129, 0.5);
+            border-radius: 12px;
+            outline: none;
+        }
+
+        .lock-input:focus {
+            border-color: #ff6b81;
+            box-shadow: 0 0 18px rgba(255, 107, 129, 0.3);
+        }
+
+        .unlock-button {
+            width: 100%;
+            margin-top: 14px;
+            padding: 13px 18px;
+            color: white;
+            font: inherit;
+            background: linear-gradient(135deg, #ff6b81, #ee5a6f);
+            border: 0;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 107, 129, 0.28);
+        }
+
+        .lock-error {
+            min-height: 22px;
+            margin: 12px 0 0;
+            color: #ff9aaa;
+            font-size: 0.9rem;
         }
 
         /* Corazones flotantes */
@@ -44,8 +140,7 @@
         .container {
             position: relative;
             z-index: 1;
-            max-width: 900px;
-            width: 92%;
+            width: min(92%, 900px);
             margin: 0 auto;
             text-align: center;
         }
@@ -56,7 +151,7 @@
         }
 
         .heart-main {
-            font-size: 70px;
+            font-size: clamp(3.25rem, 8vw, 4.375rem);
             display: inline-block;
             animation: pulse 1.5s ease-in-out infinite;
             filter: drop-shadow(0 0 20px rgba(255, 107, 129, 0.8));
@@ -68,7 +163,7 @@
         }
 
         h1 {
-            font-size: 2.8em;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
             color: #ff6b81;
             margin: 15px 0 10px;
             text-shadow: 0 0 30px rgba(255, 107, 129, 0.5);
@@ -81,6 +176,168 @@
             color: rgba(255, 255, 255, 0.7);
             font-style: italic;
             letter-spacing: 1px;
+        }
+
+        .hamburger-menu {
+            position: fixed;
+            top: max(12px, env(safe-area-inset-top));
+            right: max(12px, env(safe-area-inset-right));
+            max-width: calc(100vw - 40px);
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .home-link {
+            padding: 12px 14px;
+            color: #ff6b81;
+            text-decoration: none;
+            font-size: 0.95em;
+            font-family: inherit;
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255, 107, 129, 0.55);
+            border-radius: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .home-link:hover {
+            color: white;
+            background: rgba(255, 107, 129, 0.35);
+        }
+
+        .menu-toggle {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-content: center;
+            gap: 5px;
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255, 107, 129, 0.55);
+            border-radius: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .menu-line {
+            width: 23px;
+            height: 2px;
+            display: block;
+            background: #ff6b81;
+            border-radius: 2px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .menu-panel {
+            position: absolute;
+            top: 58px;
+            right: 0;
+            width: min(270px, calc(100vw - 32px));
+            padding: 20px;
+            text-align: left;
+            background: rgba(26, 26, 46, 0.96);
+            border: 1px solid rgba(255, 107, 129, 0.45);
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+        }
+
+        .hamburger-menu.open .menu-panel {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .hamburger-menu.open .menu-line:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .hamburger-menu.open .menu-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.open .menu-line:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        .menu-title {
+            margin-bottom: 12px;
+            color: #ff6b81;
+            font-size: 1.1em;
+        }
+
+        .menu-date {
+            padding: 8px 0;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+            line-height: 1.4;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .menu-date:last-child {
+            border-bottom: 0;
+        }
+
+        .dates-modal-content {
+            position: relative;
+        }
+
+        .dates-modal-content h2 {
+            color: #ff6b81;
+            margin-bottom: 20px;
+        }
+
+        .dates-modal-content p {
+            padding: 10px 0;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .dates-modal-content p:last-of-type {
+            border-bottom: 0;
+        }
+
+        .date-button {
+            width: 100%;
+            display: block;
+            text-align: left;
+            font: inherit;
+            background: transparent;
+            border: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+            cursor: pointer;
+            transition: color 0.3s ease, padding-left 0.3s ease;
+        }
+
+        .date-button:hover {
+            padding-left: 8px;
+            color: #ff6b81;
+        }
+
+        .photo-modal-content {
+            position: relative;
+        }
+
+        .photo-modal-content img {
+            display: block;
+            width: 100%;
+            max-height: 55vh;
+            object-fit: contain;
+            border-radius: 14px;
+            margin-bottom: 18px;
+        }
+
+        .photo-caption {
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.5;
         }
 
         @keyframes fadeIn {
@@ -133,6 +390,83 @@
             perspective: 1200px;
         }
 
+        .galaxy-stage {
+            position: relative;
+            width: 100%;
+            max-width: 760px;
+            height: clamp(360px, 58vw, 500px);
+            margin: 44px auto 22px;
+            overflow: hidden;
+            border: 1px solid rgba(151, 173, 255, 0.28);
+            border-radius: 24px;
+            background: radial-gradient(circle at center, #17153b 0%, #080b20 58%, #03040f 100%);
+            box-shadow: inset 0 0 80px rgba(84, 76, 190, 0.22), 0 20px 45px rgba(0, 0, 0, 0.35);
+        }
+
+        .galaxy-stage canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 0;
+        }
+
+        .galaxy-heading {
+            position: absolute;
+            top: 64px;
+            right: 20px;
+            left: 20px;
+            margin: 0;
+            color: rgba(235, 232, 255, 0.92);
+            font-size: clamp(1.1rem, 3vw, 1.45rem);
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-align: center;
+            text-shadow: 0 0 18px rgba(122, 153, 255, 0.9);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .galaxy-label {
+            position: absolute;
+            display: block;
+            max-width: min(190px, 40vw);
+            padding: 7px 12px;
+            color: rgba(245, 247, 255, 0.95);
+            font-size: clamp(0.7rem, 1.8vw, 0.88rem);
+            line-height: 1.3;
+            text-align: center;
+            text-shadow: 0 0 12px rgba(113, 161, 255, 1);
+            background: rgba(10, 15, 37, 0.64);
+            border: 1px solid rgba(158, 193, 255, 0.45);
+            border-radius: 999px;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            white-space: normal;
+            z-index: 3;
+        }
+
+        .galaxy-label:nth-of-type(1) { left: 50%; top: 42%; }
+        .galaxy-label:nth-of-type(2) { left: 24%; top: 55%; }
+        .galaxy-label:nth-of-type(3) { left: 72%; top: 35%; }
+        .galaxy-label:nth-of-type(4) { left: 32%; top: 28%; }
+        .galaxy-label:nth-of-type(5) { left: 68%; top: 68%; }
+        .galaxy-label:nth-of-type(6) { left: 20%; top: 35%; }
+
+        .galaxy-hint {
+            position: absolute;
+            right: 0;
+            bottom: 14px;
+            left: 0;
+            margin: 0;
+            color: rgba(220, 225, 255, 0.52);
+            font-size: 0.78rem;
+            font-style: italic;
+            letter-spacing: 1px;
+            text-align: center;
+            pointer-events: none;
+        }
+
         .carousel {
             position: relative;
             width: 100%;
@@ -146,9 +480,8 @@
 
         .card {
             position: absolute;
-            width: 340px;
-            max-width: 85vw;
-            height: 440px;
+            width: min(340px, calc(100vw - 32px));
+            height: clamp(390px, 62vh, 440px);
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -372,12 +705,14 @@
             width: 100%;
             text-align: center;
             box-shadow: 0 0 80px rgba(255, 107, 129, 0.5);
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: popIn 0.3s ease-out;
+            max-height: 90svh;
+            overflow: hidden;
         }
 
         @keyframes popIn {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from { transform: translateY(-70px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .modal-content .big-heart {
@@ -399,6 +734,20 @@
             line-height: 1.9;
             margin-bottom: 15px;
             font-style: italic;
+        }
+
+        #modal .modal-content p {
+            font-size: 0.88rem;
+            line-height: 1.55;
+            margin-bottom: 11px;
+        }
+
+        #modal .modal-content h2 {
+            font-size: 1.45rem;
+        }
+
+        #modal .modal-content .big-heart {
+            font-size: 45px;
         }
 
         .btn-close {
@@ -423,10 +772,29 @@
         @media (max-width: 700px) {
             body {
                 align-items: flex-start;
-                padding: 24px 0 32px;
+                padding: 84px 0 32px;
+            }
+            .hamburger-menu {
+                top: 12px;
+                right: 12px;
+                max-width: calc(100vw - 24px);
+                gap: 6px;
+            }
+            .home-link {
+                padding: 9px 10px;
+                font-size: 0.82rem;
+            }
+            .lock-screen {
+                padding: 16px;
+            }
+            .lock-box {
+                padding: 28px 20px;
+            }
+            .lock-icon {
+                font-size: 3.25rem;
             }
             .container {
-                width: calc(100% - 24px);
+                width: min(calc(100% - 24px), 520px);
             }
             .header {
                 margin-bottom: 24px;
@@ -439,8 +807,27 @@
                 font-size: 0.95em;
                 line-height: 1.5;
             }
-            .heart-main { font-size: 55px; }
-            .carousel { height: 410px; }
+            .heart-main { font-size: clamp(3rem, 15vw, 3.4375rem); }
+            .carousel { height: 410px; overflow: hidden; }
+            .galaxy-stage {
+                height: clamp(330px, 92vw, 430px);
+                margin-top: 36px;
+                border-radius: 18px;
+            }
+            .galaxy-heading {
+                top: 50px;
+                font-size: 1.05rem;
+                letter-spacing: 1px;
+            }
+            .galaxy-label {
+                max-width: 112px;
+                padding: 6px 8px;
+                font-size: 0.7rem;
+            }
+            .galaxy-hint {
+                bottom: 10px;
+                font-size: 0.7rem;
+            }
             .card {
                 width: min(300px, calc(100vw - 32px));
                 height: 390px;
@@ -450,10 +837,12 @@
             .card .card-title { font-size: 1.35em; }
             .card .card-text { font-size: 0.98em; line-height: 1.8; }
             .card[data-pos="1"] {
-                transform: translateX(45%) translateZ(-180px) scale(0.78) rotateY(-15deg);
+                transform: translateX(52%) translateZ(-180px) scale(0.78) rotateY(-15deg);
+                opacity: 0;
             }
             .card[data-pos="-1"] {
-                transform: translateX(-45%) translateZ(-180px) scale(0.78) rotateY(15deg);
+                transform: translateX(-52%) translateZ(-180px) scale(0.78) rotateY(15deg);
+                opacity: 0;
             }
             .card[data-pos="2"],
             .card[data-pos="-2"] {
@@ -464,9 +853,40 @@
             .signature-box { margin-top: 32px; }
             .signature { font-size: 1.25em; line-height: 1.4; }
             .music-btn { padding: 10px 22px; font-size: 0.9em; }
+            .modal-content {
+                padding: 30px 22px;
+                border-radius: 20px;
+            }
+            .modal-content h2 {
+                font-size: clamp(1.45rem, 7vw, 1.9rem);
+            }
+            .modal-content p {
+                margin-bottom: 10px;
+                font-size: 0.92rem;
+                line-height: 1.45;
+            }
+            #modal .modal-content p {
+                font-size: 0.76rem;
+                line-height: 1.35;
+                margin-bottom: 8px;
+            }
+            #modal .modal-content h2 {
+                font-size: 1.2rem;
+            }
+            #modal .modal-content .big-heart {
+                font-size: 38px;
+            }
         }
 
         @media (max-width: 400px) {
+            .hamburger-menu {
+                right: 8px;
+                max-width: calc(100vw - 16px);
+            }
+            .home-link {
+                padding: 8px 8px;
+                font-size: 0.75rem;
+            }
             .card {
                 width: calc(100vw - 28px);
                 height: 400px;
@@ -481,10 +901,74 @@
             .controls { margin-top: 24px; }
             .dots { gap: 8px; }
             .swipe-hint { font-size: 0.78em; }
+            .galaxy-stage {
+                height: 315px;
+            }
+            .galaxy-heading {
+                top: 45px;
+                font-size: 0.95rem;
+            }
+            .galaxy-label {
+                max-width: 92px;
+                padding: 5px 6px;
+                font-size: 0.65rem;
+            }
+            .modal-overlay {
+                padding: 12px;
+            }
+        }
+
+        @media (min-width: 701px) and (max-width: 1024px) {
+            .container {
+                width: min(92%, 820px);
+            }
+            .galaxy-stage {
+                width: min(94vw, 700px);
+                height: 440px;
+            }
+        }
+
+        @media (max-height: 650px) and (orientation: landscape) {
+            body {
+                align-items: flex-start;
+                padding-top: 76px;
+            }
+            .header {
+                margin-bottom: 18px;
+            }
+            .heart-main {
+                font-size: 2.8rem;
+            }
+            .carousel {
+                height: 330px;
+            }
+            .card {
+                height: 300px;
+                padding: 18px 22px;
+            }
+            .galaxy-stage {
+                height: 280px;
+                margin-top: 28px;
+            }
+            .signature-box {
+                margin-top: 24px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="lock-screen" id="lockScreen">
+        <div class="lock-box">
+            <span class="lock-icon">🔒</span>
+            <h1>Antes de ingresar</h1>
+            <p>Escribe la fecha más importante para los 2</p>
+            <form id="lockForm">
+                <input class="lock-input" id="lockCode" type="text" inputmode="numeric" autocomplete="off" maxlength="10" placeholder="DD/MM/AAAA" aria-label="Fecha secreta" required>
+                <button class="unlock-button" type="submit">Desbloquear</button>
+            </form>
+            <p class="lock-error" id="lockError" role="alert"></p>
+        </div>
+    </div>
 
     <!-- Música de fondo -->
     <audio id="bgMusic" loop preload="auto">
@@ -496,7 +980,13 @@
 
     <div id="hearts-container"></div>
 
-    <div class="container">
+    <nav class="hamburger-menu" id="hamburgerMenu" aria-label="Navegación principal">
+        <a class="home-link" href="#inicio">Inicio</a>
+        <button class="home-link" type="button" onclick="abrirFechas()">Fechas</button>
+        <button class="home-link" type="button" onclick="abrirSorpresa()">Cartita</button>
+    </nav>
+
+    <div class="container" id="inicio">
         <!-- Encabezado -->
         <div class="header">
             <span class="heart-main">❤️</span>
@@ -526,11 +1016,22 @@
             <p class="swipe-hint">Desliza o usa las flechas 💫</p>
         </div>
 
+        <section class="galaxy-stage" id="galaxyStage" aria-label="Galaxia de mensajes románticos">
+            <canvas id="galaxyCanvas"></canvas>
+            <h2 class="galaxy-heading">Mensajitos de galaxia</h2>
+            <span class="galaxy-label" data-x="10" data-y="2" data-z="7">Eres mi lugar favorito</span>
+            <span class="galaxy-label" data-x="-8" data-y="-2" data-z="5">Contigo todo brilla</span>
+            <span class="galaxy-label" data-x="4" data-y="3" data-z="-8">Te elegiría otra vez</span>
+            <span class="galaxy-label" data-x="-5" data-y="4" data-z="-7">Tu sonrisa es mi hogar</span>
+            <span class="galaxy-label" data-x="7" data-y="-4" data-z="-4">Mi universo eres tú</span>
+            <span class="galaxy-label" data-x="-10" data-y="3" data-z="-3">Siempre contigo</span>
+            <p class="galaxy-hint">Déjala girar y descubre cada mensaje</p>
+        </section>
+
         <!-- Firma -->
         <div class="signature-box">
             <p class="signature">Con todo mi corazón,<br>fabiano ❤️</p>
             <p class="date" id="fecha"></p>
-            <button class="btn-surprise" onclick="abrirSorpresa()">💌 Ábreme</button>
         </div>
     </div>
 
@@ -538,19 +1039,51 @@
     <div class="modal-overlay" id="modal">
         <div class="modal-content">
             <span class="big-heart">💖</span>
-            <h2>¡Te Amo!</h2>
-            <p>
-                Si pudiera darte una cosa en esta vida,<br>
-                te daría la capacidad de verte<br>
-                a través de mis ojos,<br>
-                para que vieras lo especial que eres para mí.
-            </p>
-            <p style="color:#ff6b81;">Eres y serás siempre mi persona favorita. 🌹</p>
+            <h2>Mi amor, Kristel:</h2>
+            <p>No necesito un día especial para recordarte lo mucho que te amo. Pero hoy quería escribirte para que sepas que eres lo mejor que me ha pasado.</p>
+            <p>Me encanta tu sonrisa, tu forma de ser y cómo haces que hasta lo simple se sienta especial. Contigo todo es mejor.</p>
+            <p>Gracias por estar conmigo, por quererme y por ser tú. Prometo cuidarte, hacerte reír y elegirte todos los días.</p>
+            <p style="color:#ff6b81;">Te amo, Kristel. Hoy y siempre.</p>
             <button class="btn-close" onclick="cerrarSorpresa()">Cerrar</button>
         </div>
     </div>
 
+    <div class="modal-overlay" id="datesModal">
+        <div class="modal-content dates-modal-content">
+            <h2>Fechas importantes</h2>
+            <button class="date-button menu-date" type="button" onclick="abrirRecuerdo('Nos conocimos: inicio de junio 2026', 'momento1.jpg')">- Nos conocimos: inicio de junio 2026</button>
+            <button class="date-button menu-date" type="button" onclick="abrirRecuerdo('Primer mensaje: 16 de junio de 2026', 'momento1.jpeg')">- Primer mensaje: 16 de junio de 2026</button>
+            <button class="date-button menu-date" type="button" onclick="abrirRecuerdo('Nuestro aniversario: 27 de junio de 2026', 'momento2.jpeg')">- Nuestro aniversario: 27 de junio de 2026</button>
+            <button class="btn-close" type="button" onclick="cerrarFechas()">Cerrar</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="photoModal">
+        <div class="modal-content photo-modal-content">
+            <img id="photoImage" src="momento1.jpg" alt="Foto del recuerdo seleccionado">
+            <p class="photo-caption" id="photoCaption"></p>
+            <button class="btn-close" type="button" onclick="cerrarRecuerdo()">Cerrar</button>
+        </div>
+    </div>
+
     <script>
+        document.body.classList.add('locked');
+
+        document.getElementById('lockForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const code = document.getElementById('lockCode').value.trim();
+            const error = document.getElementById('lockError');
+
+            if (code === '27/06/2026') {
+                document.getElementById('lockScreen').classList.add('unlocked');
+                document.body.classList.remove('locked');
+                error.textContent = '';
+            } else {
+                error.textContent = 'Fecha incorrecta. Inténtalo de nuevo.';
+                document.getElementById('lockCode').select();
+            }
+        });
+
         // ====== CARTAS ======
         const cartas = [
             {
@@ -622,6 +1155,25 @@
 
         const dots = document.querySelectorAll('.dot');
 
+        function abrirFechas() {
+            document.getElementById('datesModal').classList.add('active');
+        }
+
+        function cerrarFechas() {
+            document.getElementById('datesModal').classList.remove('active');
+        }
+
+        function abrirRecuerdo(fechaSeleccionada, imagen) {
+            document.getElementById('photoCaption').textContent = fechaSeleccionada;
+            document.getElementById('photoImage').src = imagen;
+            document.getElementById('datesModal').classList.remove('active');
+            document.getElementById('photoModal').classList.add('active');
+        }
+
+        function cerrarRecuerdo() {
+            document.getElementById('photoModal').classList.remove('active');
+        }
+
         function actualizar() {
             cards.forEach((card, i) => {
                 let diff = i - indiceActual;
@@ -677,14 +1229,13 @@
         // Autoplay carrusel
         let autoplay;
         function iniciarAutoplay() {
-            autoplay = setInterval(() => moverCarrusel(1), 7000);
+            clearInterval(autoplay);
+            autoplay = setInterval(() => moverCarrusel(1), 4500);
         }
         function detenerAutoplay() {
             clearInterval(autoplay);
         }
 
-        carousel.addEventListener('mouseenter', detenerAutoplay);
-        carousel.addEventListener('mouseleave', iniciarAutoplay);
         carousel.addEventListener('touchstart', detenerAutoplay, { passive: true });
         carousel.addEventListener('touchend', () => {
             setTimeout(iniciarAutoplay, 3000);
@@ -763,6 +1314,162 @@
             document.removeEventListener('click', primerClic);
         }, { once: false });
     </script>
+
+        <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+        <script>
+
+            const galaxyStage = document.getElementById('galaxyStage');
+            const galaxyCanvas = document.getElementById('galaxyCanvas');
+            const galaxyLabels = [...document.querySelectorAll('.galaxy-label')];
+            const galaxyScene = new THREE.Scene();
+            const galaxyCamera = new THREE.PerspectiveCamera(46, 1, 0.1, 100);
+            const galaxyRenderer = new THREE.WebGLRenderer({
+                canvas: galaxyCanvas,
+                alpha: true,
+                antialias: true,
+                powerPreference: 'high-performance'
+            });
+
+            galaxyRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            galaxyCamera.position.set(0, 0, 25);
+
+            const galaxyGroup = new THREE.Group();
+            galaxyScene.add(galaxyGroup);
+
+            const starTextureCanvas = document.createElement('canvas');
+            starTextureCanvas.width = 64;
+            starTextureCanvas.height = 64;
+            const starTextureContext = starTextureCanvas.getContext('2d');
+            const starGlow = starTextureContext.createRadialGradient(32, 32, 0, 32, 32, 32);
+            starGlow.addColorStop(0, 'rgba(255,255,255,1)');
+            starGlow.addColorStop(0.25, 'rgba(210,225,255,0.95)');
+            starGlow.addColorStop(1, 'rgba(80,120,255,0)');
+            starTextureContext.fillStyle = starGlow;
+            starTextureContext.fillRect(0, 0, 64, 64);
+            const starTexture = new THREE.CanvasTexture(starTextureCanvas);
+
+            const particleCount = 9500;
+            const particlePositions = new Float32Array(particleCount * 3);
+            const particleColors = new Float32Array(particleCount * 3);
+            const warmColor = new THREE.Color(0xffb36b);
+            const violetColor = new THREE.Color(0xb77cff);
+            const blueColor = new THREE.Color(0x6598ff);
+
+            for (let i = 0; i < particleCount; i++) {
+                const radius = Math.pow(Math.random(), 1.55) * 11;
+                const arm = i % 4;
+                const angle = arm * Math.PI / 2 + radius * 0.5 + (Math.random() - 0.5) * 0.7;
+                const thickness = (Math.random() - 0.5) * (1.2 - radius / 11 * 0.75);
+                const index = i * 3;
+                const color = radius < 3
+                    ? warmColor.clone().lerp(violetColor, radius / 3)
+                    : violetColor.clone().lerp(blueColor, (radius - 3) / 8);
+
+                particlePositions[index] = Math.cos(angle) * radius;
+                particlePositions[index + 1] = thickness;
+                particlePositions[index + 2] = Math.sin(angle) * radius;
+                particleColors[index] = color.r;
+                particleColors[index + 1] = color.g;
+                particleColors[index + 2] = color.b;
+            }
+
+            const galaxyGeometry = new THREE.BufferGeometry();
+            galaxyGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+            galaxyGeometry.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+            galaxyGroup.add(new THREE.Points(galaxyGeometry, new THREE.PointsMaterial({
+                size: 0.24,
+                map: starTexture,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.9,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                sizeAttenuation: true
+            })));
+
+            const core = new THREE.Mesh(
+                new THREE.SphereGeometry(1.25, 32, 32),
+                new THREE.MeshBasicMaterial({ color: 0xffc27d })
+            );
+            galaxyGroup.add(core);
+
+            const halo = new THREE.Mesh(
+                new THREE.SphereGeometry(2.5, 32, 32),
+                new THREE.MeshBasicMaterial({
+                    color: 0xff8c69,
+                    transparent: true,
+                    opacity: 0.13,
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false
+                })
+            );
+            galaxyGroup.add(halo);
+
+            const backgroundPositions = new Float32Array(1500 * 3);
+            for (let i = 0; i < 1500; i++) {
+                const index = i * 3;
+                const distance = 28 + Math.random() * 25;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos(Math.random() * 2 - 1);
+                backgroundPositions[index] = distance * Math.sin(phi) * Math.cos(theta);
+                backgroundPositions[index + 1] = distance * Math.cos(phi);
+                backgroundPositions[index + 2] = distance * Math.sin(phi) * Math.sin(theta);
+            }
+
+            const backgroundGeometry = new THREE.BufferGeometry();
+            backgroundGeometry.setAttribute('position', new THREE.BufferAttribute(backgroundPositions, 3));
+            galaxyScene.add(new THREE.Points(backgroundGeometry, new THREE.PointsMaterial({
+                size: 0.18,
+                map: starTexture,
+                color: 0xaec8ff,
+                transparent: true,
+                opacity: 0.7,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            })));
+
+            const labelPoints = galaxyLabels.map((label) => new THREE.Vector3(
+                Number(label.dataset.x),
+                Number(label.dataset.y),
+                Number(label.dataset.z)
+            ));
+            const projectedPoint = new THREE.Vector3();
+
+            function resizeGalaxy() {
+                const width = galaxyStage.clientWidth;
+                const height = galaxyStage.clientHeight;
+                galaxyCamera.aspect = width / height;
+                galaxyCamera.updateProjectionMatrix();
+                galaxyRenderer.setSize(width, height, false);
+            }
+
+            function animateGalaxy(time) {
+                galaxyGroup.rotation.y = time * 0.00018;
+                galaxyGroup.rotation.x = 0.22 + Math.sin(time * 0.00012) * 0.03;
+                const pulse = 1 + Math.sin(time * 0.002) * 0.06;
+                core.scale.setScalar(pulse);
+                halo.scale.setScalar(pulse * 1.05);
+
+                galaxyGroup.updateMatrixWorld(true);
+                galaxyLabels.forEach((label, index) => {
+                    projectedPoint.copy(labelPoints[index]).applyMatrix4(galaxyGroup.matrixWorld).project(galaxyCamera);
+                    const visible = projectedPoint.z < 1;
+                    label.style.display = visible ? 'block' : 'none';
+                    if (visible) {
+                        label.style.left = `${(projectedPoint.x * 0.5 + 0.5) * galaxyStage.clientWidth}px`;
+                        label.style.top = `${(-projectedPoint.y * 0.5 + 0.5) * galaxyStage.clientHeight}px`;
+                        label.style.opacity = `${Math.max(0.45, 1 - Math.max(0, projectedPoint.z) * 0.45)}`;
+                    }
+                });
+
+                galaxyRenderer.render(galaxyScene, galaxyCamera);
+                requestAnimationFrame(animateGalaxy);
+            }
+
+            resizeGalaxy();
+            window.addEventListener('resize', resizeGalaxy);
+            requestAnimationFrame(animateGalaxy);
+        </script>
 
 </body>
 </html>
