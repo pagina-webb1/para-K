@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti, Mi Amor ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 40px 0;
+        }
+
+        /* Corazones flotantes */
+        .heart {
+            position: fixed;
+            color: rgba(255, 107, 129, 0.6);
+            font-size: 20px;
+            animation: floatUp linear infinite;
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg) scale(1); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg) scale(0.5); opacity: 0; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            width: 92%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 40px;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        .heart-main {
+            font-size: 70px;
+            display: inline-block;
+            animation: pulse 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 107, 129, 0.8));
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        h1 {
+            font-size: 2.8em;
+            color: #ff6b81;
+            margin: 15px 0 10px;
+            text-shadow: 0 0 30px rgba(255, 107, 129, 0.5);
+            letter-spacing: 2px;
+            font-weight: 400;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== CONTROLES DE MÚSICA ===== */
+        .music-control {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .music-btn {
+            padding: 12px 28px;
+            font-size: 1em;
+            font-family: 'Georgia', serif;
+            background: rgba(255, 107, 129, 0.15);
+            color: #ff6b81;
+            border: 2px solid rgba(255, 107, 129, 0.5);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            letter-spacing: 1px;
+        }
+
+        .music-btn:hover {
+            background: #ff6b81;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 107, 129, 0.6);
+        }
+
+        .music-btn.playing {
+            background: #ff6b81;
+            color: white;
+            box-shadow: 0 0 25px rgba(255, 107, 129, 0.7);
+        }
+
+        /* ===== CARRUSEL ===== */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            perspective: 1200px;
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            transform-style: preserve-3d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            position: absolute;
+            width: 340px;
+            max-width: 85vw;
+            height: 440px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 129, 0.35);
+            border-radius: 25px;
+            padding: 35px 30px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5),
+                        0 0 60px rgba(255, 107, 129, 0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: all 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .card .card-icon {
+            font-size: 55px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px rgba(255, 107, 129, 0.6));
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .card .card-title {
+            font-size: 1.6em;
+            color: #ff6b81;
+            margin-bottom: 18px;
+            text-shadow: 0 0 20px rgba(255, 107, 129, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .card .card-text {
+            font-size: 1.05em;
+            line-height: 1.9;
+            color: rgba(255, 255, 255, 0.9);
+            font-style: italic;
+            padding: 0 5px;
+        }
+
+        .card .card-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff6b81, transparent);
+            margin: 20px auto 0;
+            border: none;
+        }
+
+        /* Posiciones del carrusel */
+        .card[data-pos="0"] {
+            transform: translateX(0) translateZ(0) scale(1);
+            opacity: 1;
+            z-index: 5;
+        }
+        .card[data-pos="1"] {
+            transform: translateX(65%) translateZ(-150px) scale(0.82) rotateY(-18deg);
+            opacity: 0.55;
+            z-index: 4;
+        }
+        .card[data-pos="-1"] {
+            transform: translateX(-65%) translateZ(-150px) scale(0.82) rotateY(18deg);
+            opacity: 0.55;
+            z-index: 4;
+        }
+        .card[data-pos="2"] {
+            transform: translateX(110%) translateZ(-300px) scale(0.65) rotateY(-25deg);
+            opacity: 0.2;
+            z-index: 3;
+        }
+        .card[data-pos="-2"] {
+            transform: translateX(-110%) translateZ(-300px) scale(0.65) rotateY(25deg);
+            opacity: 0.2;
+            z-index: 3;
+        }
+        .card[data-pos="hidden"] {
+            transform: translateX(0) translateZ(-500px) scale(0.4);
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ===== CONTROLES ===== */
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 35px;
+        }
+
+        .nav-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: rgba(255, 107, 129, 0.15);
+            border: 2px solid rgba(255, 107, 129, 0.5);
+            color: #ff6b81;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: #ff6b81;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 107, 129, 0.6);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .dots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: none;
+        }
+
+        .dot.active {
+            background: #ff6b81;
+            width: 35px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 107, 129, 0.8);
+        }
+
+        .dot:hover {
+            background: rgba(255, 107, 129, 0.7);
+        }
+
+        .swipe-hint {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85em;
+            margin-top: 20px;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        .signature-box {
+            margin-top: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .signature {
+            font-size: 1.5em;
+            color: #ff6b81;
+            font-style: italic;
+            text-shadow: 0 0 20px rgba(255, 107, 129, 0.4);
+        }
+
+        .date {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+
+        .btn-surprise {
+            margin-top: 30px;
+            padding: 14px 38px;
+            font-size: 1.05em;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ff6b81, #ee5a6f);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 129, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .btn-surprise:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 107, 129, 0.6);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            border: 2px solid #ff6b81;
+            border-radius: 25px;
+            padding: 45px 35px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 80px rgba(255, 107, 129, 0.5);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-content .big-heart {
+            font-size: 60px;
+            display: block;
+            margin-bottom: 15px;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .modal-content h2 {
+            color: #ff6b81;
+            font-size: 1.9em;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1em;
+            line-height: 1.9;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .btn-close {
+            margin-top: 15px;
+            padding: 12px 30px;
+            font-size: 1em;
+            font-family: 'Georgia', serif;
+            background: transparent;
+            color: #ff6b81;
+            border: 2px solid #ff6b81;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-close:hover {
+            background: #ff6b81;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            h1 { font-size: 2em; }
+            .heart-main { font-size: 55px; }
+            .carousel { height: 460px; }
+            .card {
+                width: 300px;
+                height: 420px;
+                padding: 30px 22px;
+            }
+            .card .card-icon { font-size: 45px; }
+            .card .card-title { font-size: 1.35em; }
+            .card .card-text { font-size: 0.98em; line-height: 1.8; }
+            .card[data-pos="1"] {
+                transform: translateX(45%) translateZ(-180px) scale(0.78) rotateY(-15deg);
+            }
+            .card[data-pos="-1"] {
+                transform: translateX(-45%) translateZ(-180px) scale(0.78) rotateY(15deg);
+            }
+            .card[data-pos="2"],
+            .card[data-pos="-2"] {
+                opacity: 0;
+                pointer-events: none;
+            }
+            .nav-btn { width: 48px; height: 48px; font-size: 1.3em; }
+            .signature { font-size: 1.25em; }
+            .music-btn { padding: 10px 22px; font-size: 0.9em; }
+        }
+
+        @media (max-width: 400px) {
+            .card {
+                width: 270px;
+                height: 440px;
+                padding: 25px 18px;
+            }
+            .card .card-text { font-size: 0.92em; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Música de fondo -->
+    <audio id="bgMusic" loop preload="auto">
+        <!-- CAMBIA ESTA RUTA por el archivo de música real -->
+        <source src="Bruno Mars - Risk It All [Official Music Video] [lY5V4hSLWY8].mp3" type="audio/mpeg">
+        <source src="risk-it-all.ogg" type="audio/ogg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+
+    <div id="hearts-container"></div>
+
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="header">
+            <span class="heart-main">❤️</span>
+            <h1>Para Ti, kristel  </h1>
+            <p class="subtitle">— Un pequeño universo de cartas para ti —</p>
+
+            <!-- Control de música -->
+            <div class="music-control">
+                <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+                    🎵 Reproducir "Risk It All"
+                </button>
+            </div>
+        </div>
+
+        <!-- Carrusel -->
+        <div class="carousel-wrapper">
+            <div class="carousel" id="carousel">
+                <!-- Las cartas se generan con JS -->
+            </div>
+
+            <div class="controls">
+                <button class="nav-btn" onclick="moverCarrusel(-1)" aria-label="Anterior">‹</button>
+                <button class="nav-btn" onclick="moverCarrusel(1)" aria-label="Siguiente">›</button>
+            </div>
+
+            <div class="dots" id="dots"></div>
+            <p class="swipe-hint">Desliza o usa las flechas 💫</p>
+        </div>
+
+        <!-- Firma -->
+        <div class="signature-box">
+            <p class="signature">Con todo mi corazón,<br>fabiano ❤️</p>
+            <p class="date" id="fecha"></p>
+            <button class="btn-surprise" onclick="abrirSorpresa()">💌 Ábreme</button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <span class="big-heart">💖</span>
+            <h2>¡Te Amo!</h2>
+            <p>
+                Si pudiera darte una cosa en esta vida,<br>
+                te daría la capacidad de verte<br>
+                a través de mis ojos,<br>
+                para que vieras lo especial que eres para mí.
+            </p>
+            <p style="color:#ff6b81;">Eres y serás siempre mi persona favorita. 🌹</p>
+            <button class="btn-close" onclick="cerrarSorpresa()">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // ====== CARTAS ======
+        const cartas = [
+            {
+                icono: "💖",
+                titulo: "Mi Casualidad Favorita",
+                texto: "Desde que llegaste a mi vida, todo tiene más color y más sentido. Eres mi lugar seguro, mi sonrisa de cada mañana y mi pensamiento de cada noche."
+            },
+            {
+                icono: "🌹",
+                titulo: "Lo Que Siento",
+                texto: "No sé qué habré hecho para merecerte, pero cada día doy gracias por tenerte. Contigo hasta lo ordinario se vuelve extraordinario."
+            },
+            {
+                icono: "✨",
+                titulo: "Mi Persona",
+                texto: "Eres mi mejor casualidad y mi más bonita coincidencia. Gracias por existir, por elegirme y por quedarte a mi lado cada día."
+            },
+            {
+                icono: "💫",
+                titulo: "Cada Día Contigo",
+                texto: "Me encanta despertar sabiendo que estás en mi vida. Tus mensajes, tu risa, tu forma de ser... todo de ti me enamora una y otra vez."
+            },
+            {
+                icono: "💕",
+                titulo: "Mi Promesa",
+                texto: "Prometo cuidarte, escucharte, apoyarte y amarte en cada momento. Estar contigo es la mejor decisión que he tomado y la que tomaría mil veces más."
+            },
+            {
+                icono: "🌙",
+                titulo: "Antes de Dormir",
+                texto: "Si pudiera pedir un deseo cada noche, pediría seguir teniéndote a mi lado. Eres el sueño del que nunca quiero despertar."
+            },
+            {
+                icono: "❤️",
+                titulo: "Te Amo",
+                texto: "Te quiero con todo lo que soy y con todo lo que tengo. Te amo hoy, mañana y siempre. Gracias por ser tú, mi amor."
+            }
+        ];
+
+        const carousel = document.getElementById('carousel');
+        const dotsContainer = document.getElementById('dots');
+        let indiceActual = 0;
+        const total = cartas.length;
+
+        // Crear cartas
+        cartas.forEach((carta, i) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-icon">${carta.icono}</div>
+                <h3 class="card-title">${carta.titulo}</h3>
+                <p class="card-text">${carta.texto}</p>
+                <hr class="card-divider">
+            `;
+            card.addEventListener('click', () => irA(i));
+            carousel.appendChild(card);
+        });
+
+        const cards = document.querySelectorAll('.card');
+
+        // Crear puntos
+        cartas.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'dot';
+            dot.setAttribute('aria-label', `Ir a carta ${i + 1}`);
+            dot.addEventListener('click', () => irA(i));
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function actualizar() {
+            cards.forEach((card, i) => {
+                let diff = i - indiceActual;
+                if (diff > total / 2) diff -= total;
+                if (diff < -total / 2) diff += total;
+
+                if (diff >= -2 && diff <= 2) {
+                    card.setAttribute('data-pos', diff);
+                } else {
+                    card.setAttribute('data-pos', 'hidden');
+                }
+            });
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === indiceActual);
+            });
+        }
+
+        function moverCarrusel(dir) {
+            indiceActual = (indiceActual + dir + total) % total;
+            actualizar();
+        }
+
+        function irA(i) {
+            indiceActual = i;
+            actualizar();
+        }
+
+        // Swipe táctil
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        carousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const umbral = 50;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > umbral) {
+                if (diff > 0) moverCarrusel(1);
+                else moverCarrusel(-1);
+            }
+        }, { passive: true });
+
+        // Teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') moverCarrusel(-1);
+            if (e.key === 'ArrowRight') moverCarrusel(1);
+        });
+
+        // Autoplay carrusel
+        let autoplay;
+        function iniciarAutoplay() {
+            autoplay = setInterval(() => moverCarrusel(1), 7000);
+        }
+        function detenerAutoplay() {
+            clearInterval(autoplay);
+        }
+
+        carousel.addEventListener('mouseenter', detenerAutoplay);
+        carousel.addEventListener('mouseleave', iniciarAutoplay);
+        carousel.addEventListener('touchstart', detenerAutoplay, { passive: true });
+        carousel.addEventListener('touchend', () => {
+            setTimeout(iniciarAutoplay, 3000);
+        }, { passive: true });
+
+        iniciarAutoplay();
+        actualizar();
+
+        // ====== FECHA ======
+        const fecha = new Date();
+        const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('fecha').textContent =
+            "Escrito el " + fecha.toLocaleDateString('es-ES', opciones);
+
+        // ====== CORAZONES FLOTANTES ======
+        const heartsContainer = document.getElementById('hearts-container');
+        const hearts = ['❤️', '💕', '💖', '💗', '💓', '💝', '🌹', '✨'];
+
+        function crearCorazon() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 22 + 14) + 'px';
+            heart.style.animationDuration = (Math.random() * 8 + 7) + 's';
+            heart.style.animationDelay = Math.random() * 4 + 's';
+            heartsContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), 16000);
+        }
+
+        setInterval(crearCorazon, 400);
+        for (let i = 0; i < 12; i++) setTimeout(crearCorazon, i * 250);
+
+        // ====== MODAL ======
+        function abrirSorpresa() {
+            document.getElementById('modal').classList.add('active');
+        }
+        function cerrarSorpresa() {
+            document.getElementById('modal').classList.remove('active');
+        }
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) cerrarSorpresa();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') cerrarSorpresa();
+        });
+
+        // ====== CONTROL DE MÚSICA ======
+        const audio = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    musicBtn.textContent = '⏸ Pausar música';
+                    musicBtn.classList.add('playing');
+                }).catch(() => {
+                    // Si el navegador bloquea el autoplay, mostramos un mensaje
+                    musicBtn.textContent = '🎵 Haz clic para reproducir';
+                });
+            } else {
+                audio.pause();
+                musicBtn.textContent = '🎵 Reproducir "Risk It All"';
+                musicBtn.classList.remove('playing');
+            }
+        }
+
+        // Intentar reproducir al hacer clic en cualquier parte de la página (primera vez)
+        document.addEventListener('click', function primerClic() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    musicBtn.textContent = '⏸ Pausar música';
+                    musicBtn.classList.add('playing');
+                }).catch(() => {});
+            }
+            document.removeEventListener('click', primerClic);
+        }, { once: false });
+    </script>
+
+</body>
+</html>
